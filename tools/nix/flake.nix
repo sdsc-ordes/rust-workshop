@@ -75,6 +75,10 @@
           just
 
           nodePackages_latest.npm
+          nodePackages_latest.yarn
+
+          watchman
+          python312Packages.pywatchman
         ];
 
         # Things needed at runtime.
