@@ -46,7 +46,10 @@
     # by calling this function:
     (
       system: let
-        overlays = [(import rust-overlay)];
+        overlays = [
+          (import rust-overlay)
+          (import ./pkgs/node-packages)
+        ];
 
         # Import nixpkgs and load it into pkgs.
         # Overlay the rust toolchain
@@ -76,6 +79,11 @@
 
           nodePackages_latest.npm
           nodePackages_latest.yarn
+          nodePackages.node2nix
+
+          nodePackages.prettier
+          # Currently does not work.
+          # nodePackages.prettier-plugin-slidev
 
           watchman
           python312Packages.pywatchman
@@ -85,6 +93,8 @@
         buildInputs = [];
       in
         with pkgs; {
+          formatter = treefmtEval.config.build.wrapper;
+
           devShells = {
             default = mkShell {
               inherit buildInputs;

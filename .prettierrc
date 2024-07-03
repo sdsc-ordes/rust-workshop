@@ -3,10 +3,10 @@ tabWidth: 2
 semi: false
 singleQuote: false
 overrides:
-    [
-        {
-            files: "*.md",
-            options:
-                { proseWrap: always },
-        },
-    ]
+  # - files: ["*.md", "pages/*.md"]
+  #   options:
+  #     parser: slidev
+  #     plugins: ["prettier-plugin-slidev"]
+  - files: ["*.md"]
+    options:
+      proseWrap: always
