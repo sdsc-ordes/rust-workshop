@@ -1,0 +1,3 @@
+[submodule "external/teach-rs"]
+	path = external/teach-rs
+	url = https://github.com/trifectatechfoundation/teach-rs.git

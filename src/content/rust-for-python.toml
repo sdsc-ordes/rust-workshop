@@ -1,0 +1,5 @@
+
+name = "Rust for Python Devs"
+modules = [
+    "mods/0-intro/mod.toml",
+]
