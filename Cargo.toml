@@ -2,5 +2,8 @@
 members = [
    "exercises/setup",
    "exercises/basic-syntax",
+   "exercises/move-semantics",
+   "exercises/error-handling",
+   "exercises/error-propagation",
 ]
 resolver = "2"

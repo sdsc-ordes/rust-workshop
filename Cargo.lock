@@ -7,5 +7,17 @@ name = "basic-syntax"
 version = "0.1.0"
 
 [[package]]
+name = "error-handling"
+version = "0.1.0"
+
+[[package]]
+name = "error-propagating"
+version = "0.1.0"
+
+[[package]]
+name = "move-semantics"
+version = "0.1.0"
+
+[[package]]
 name = "setup"
 version = "0.1.0"
