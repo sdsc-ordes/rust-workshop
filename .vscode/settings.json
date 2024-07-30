@@ -1,8 +1,10 @@
 {
   "search.exclude": {
-    "**/target": true
+    "**/target": true,
     "**/build": true
   },
-  "lldb.verboseLogging": true
+
+  "lldb.verboseLogging": true,
+
   "nixEnvSelector.nixFile": "${workspaceFolder}/tools/nix/shell.nix"
 }
