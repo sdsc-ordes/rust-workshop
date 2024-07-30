@@ -1,5 +1,5 @@
 {
-  description = "rdf-protect";
+  description = "rust-workshop";
 
   nixConfig = {
     substituters = [
@@ -48,7 +48,6 @@
       system: let
         overlays = [
           (import rust-overlay)
-          (import ./pkgs/node-packages)
         ];
 
         # Import nixpkgs and load it into pkgs.
@@ -77,24 +76,16 @@
           cargo-watch
           just
 
-          nodePackages_latest.npm
-          nodePackages_latest.yarn
-          nodePackages.node2nix
+          lldb_18 # For lldb-dap (formerly lldb-vscode)
 
           nodePackages.prettier
-          # Currently does not work.
-          # nodePackages.prettier-plugin-slidev
-
-          watchman
-          python312Packages.pywatchman
+          devcontainer
         ];
 
         # Things needed at runtime.
         buildInputs = [];
       in
         with pkgs; {
-          formatter = treefmtEval.config.build.wrapper;
-
           devShells = {
             default = mkShell {
               inherit buildInputs;

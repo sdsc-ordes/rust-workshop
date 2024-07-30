@@ -1,0 +1,11 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/rust:latest",
+
+  "features": {
+    "ghcr.io/guiyomh/features/just:0": "latest"
+  },
+  "remoteUser": "root",
+
+  "capAdd": ["SYS_PTRACE"],
+  "securityOpt": ["seccomp=unconfined"]
+}

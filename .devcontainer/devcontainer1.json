@@ -1,0 +1,42 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/nix:1": {
+      "version": "latest",
+      "extraNixConfig": "extra-experimental-features = nix-command flakes"
+    },
+    "ghcr.io/devcontainers-contrib/features/direnv:1": "latest",
+    "ghcr.io/guiyomh/features/just:0": "latest"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "llvm-vs-code-extensions.lldb-dap",
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+
+        "arrterian.nix-env-selector",
+
+        "EditorConfig.EditorConfig",
+
+        "foxundermoon.shell-format",
+        "timonwong.shellcheck"
+      ]
+    }
+  },
+
+  "onCreateCommand": ".devcontainer/scripts/on-create-command.sh",
+  "waitFor": "onCreateCommand",
+
+  "containerEnv": {
+    // extensions to preload before other extensions
+    "PRELOAD_EXTENSIONS": "arrterian.nix-env-selector"
+  },
+
+  "remoteUser": "root",
+
+  "capAdd": ["SYS_PTRACE"],
+  "securityOpt": ["seccomp=unconfined"]
+}
