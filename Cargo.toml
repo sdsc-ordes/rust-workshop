@@ -5,5 +5,12 @@ members = [
    "exercises/move-semantics",
    "exercises/error-handling",
    "exercises/error-propagation",
+   "exercises/slices",
+   "exercises/ring-buffer",
+   "exercises/boxed-data",
+   "exercises/config-reader",
+   "exercises/binary-tree",
+   "exercises/local-storage-vec"
 ]
+
 resolver = "2"
