@@ -1,5 +1,42 @@
 # Rust Workshop
 
+This repository contains exercises and tooling accompanied by the
+[Rust Workshop Presentation](https://github.com/sdsc-ordes/technical-presentation/tree/gabriel.nuetzi/rust-workshop).
+
+The presentation slides can be watched here: <!-- TODO: Add here the link -->
+
+## Build & Test & Run Exercises
+
+Any exercise has a small `README.md` with additional information to it.
+
+You can build any exercise in [`./exercises`](./exercises) with the tool `cargo`
+by doing
+
+```shell
+cd ./exercises/basic-syntax
+cargo build
+```
+
+Use `cargo test`, `cargo run` to test and run the executables in the small
+exercise projects.
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> An exercise might contain multiple executables:
+> By default all are built. Use `--bin <executable-name>`
+> to build a specific one, e.g. `cargo build --bin 01` in the above example.
+
+<!-- prettier-ignore -->
+> [!TIP]
+> Use the nicer `just` targets:
+>
+> ```shell
+>    just build <exercise-name> [build|test|run|watch] [add-cargo-args...]`
+> ```
+>
+> to build/test/run any exercise. Use **`watch`** to continuously build
+> an exercise.
+
 ## Preparations Before Workshop
 
 In this section you'll find instructions on how to install the tools we'll use

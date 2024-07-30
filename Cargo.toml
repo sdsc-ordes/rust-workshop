@@ -1,5 +1,6 @@
 [workspace]
 members = [
    "exercises/setup",
+   "exercises/basic-syntax",
 ]
 resolver = "2"

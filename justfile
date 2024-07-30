@@ -31,21 +31,26 @@ list-excercises:
     done
 
 # Build the excercise with name `name`.
-build name:
+build name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
-    cd "$dir" && cargo build
+    cd "$dir" && cargo build "${@:2}"
 
-run name:
+test name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
-    cd "$dir" && cargo run
+    cd "$dir" && cargo run "${@:2}"
+
+run name *args:
+  dir="{{root_dir}}/exercises/{{name}}" && \
+    just check_exercise_dir "$dir" && \
+    cd "$dir" && cargo run "${@:2}"
 
 # Continuously build the excercise with name `name`.
-watch name:
+watch name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
-    cd "$dir" && cargo watch -x build
+    cd "$dir" && cargo watch -x build "${@:2}"
 
 [private]
 check_exercise_dir dir:

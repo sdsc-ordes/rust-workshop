@@ -3,5 +3,9 @@
 version = 3
 
 [[package]]
+name = "basic-syntax"
+version = "0.1.0"
+
+[[package]]
 name = "setup"
 version = "0.1.0"
