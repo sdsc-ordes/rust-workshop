@@ -26,7 +26,7 @@ commented out right now, to enable a step-by-step approach. **Before you begin,
 have a look at the code and the comments in there, they contain various helpful
 clues.**
 
-# #[modmod:exercise_ref].A Defining the type ⭐
+# A. Defining the type ⭐
 
 Currently, the `LocalStorageVec` `enum` is incomplete. Give it two variants:
 `Stack` and `Heap`. `Stack` contains two named fields, `buf` and `len`. `buf`
@@ -73,7 +73,7 @@ pub enum LocalStorageVec<T, const N: usize> {
 
 </details>
 
-# #[modmod:exercise_ref].B `impl`-ing `From<Vec<T>>` ⭐
+# B. `impl`-ing `From<Vec<T>>` ⭐
 
 Uncomment the test `it_from_vecs`, and add an implementation for `From<Vec<T>>`
 to `LocalStorageVec<T>`. To do so, copy the following code in your `lib.rs` file
@@ -95,7 +95,7 @@ impl<T, const N: usize> From<Vec<T>> for LocalStorageVec<T, N> {
 
 Run `cargo test` to validate your implementation.
 
-# #[modmod:exercise_ref].C `impl LocalStorageVec` ⭐⭐
+# C. `impl LocalStorageVec` ⭐⭐
 
 To make the `LocalStorageVec` more useful, we'll add more methods to it. Create
 an `impl`-block for `LocalStorageVec`. Don't forget to declare and provide the
@@ -125,7 +125,7 @@ to have a look at the methods provided for slices
 [`Vec<T>`](https://doc.rust-lang.org/std/vec/struct.Vec.html)** Specifically,
 `[T]::copy_within` and `Vec::extend_from_slice` can be of use.
 
-# #[modmod:exercise_ref].E `Iterator` and `IntoIterator` ⭐⭐
+# E. `Iterator` and `IntoIterator` ⭐⭐
 
 Our `LocalStorageVec` can be used in the real world now, but we still shouldn't
 be satisfied. There are various traits in the standard library that we can
@@ -164,7 +164,7 @@ methods of `LocalStorageVec`?
 Now to instantiate a `LocalStorageVecIter`, implement the [`IntoIter`] trait for
 it, in such a way that calling `into_iter` yields a `LocalStorageVecIter`.
 
-# #[modmod:exercise_ref].F `Index` ⭐⭐
+# F. `Index` ⭐⭐
 
 To allow users of the `LocalStorageVec` to read items or slices from its buffer,
 we can implement the
@@ -185,7 +185,7 @@ implementation, as slices `[T]` all support indexing by the previous types. That
 is, `[T]` also implements `Index` for those types. Uncomment the `it_indexes`
 test case and run `cargo test` in order to validate your implementation.
 
-# #[modmod:exercise_ref].G Removing bounds ⭐⭐
+# G. Removing bounds ⭐⭐
 
 When we implemented the borrowing `Iterator`, we saw that it's possible to
 define methods in separate `impl` blocks with different type bounds. Some of the
@@ -195,7 +195,7 @@ functionality you wrote used the assumption that `T` is both `Copy` and
 and `Default`, which is not ideal. How many methods can you rewrite having one
 or both of these bounds removed?
 
-# #[modmod:exercise_ref].H Borrowing `Iterator` ⭐⭐⭐
+# H. Borrowing `Iterator` ⭐⭐⭐
 
 We've already got an iterator for `LocalStorageVec`, though it has the
 limitation that in order to construct it, the `LocalStorageVec` needs to be
@@ -227,9 +227,9 @@ for certain instances of the generic type. In our case, the `new` method is only
 available for `LocalStorageVec`s containing items of type `T` that implement
 both `Copy` and `Default`, but `iter` is available for all `LocalStorageVec`s.
 
-# #[modmod:exercise_ref].I Generic `Index` ⭐⭐⭐⭐
+# I. Generic `Index` ⭐⭐⭐⭐
 
-You've probably duplicated a lot of code in exercise #[modmod:exercise_ref].F.
+You've probably duplicated a lot of code in exercise F..
 We can reduce the boilerplate by defining an empty trait:
 
 ```rust
@@ -248,7 +248,7 @@ _"For each type `T`, `I` and constant `N` of type `usize`,_ _implement
 
 If you've done this correctly, `it_indexes` should again compile and pass.
 
-# #[modmod:exercise_ref].J `Deref` and `DerefMut` ⭐⭐⭐⭐
+# J. `Deref` and `DerefMut` ⭐⭐⭐⭐
 
 The next trait that makes our `LocalStorageVec` more flexible in use are
 [`Deref`](https://doc.rust-lang.org/std/ops/trait.Deref.html) and
