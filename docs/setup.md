@@ -16,9 +16,9 @@ There are 3 setups you can choose from which are described further below.
 option.**
 
 - **1. Nix Development Shell**: A stable development environment with the Nix
-  package manager. The `nix develop ./tools/nix#default` will enter a
-  development shell with the toolchain in your `PATH`. The editor setup is on
-  your shoulder.
+  package manager. The `nix develop './tools/nix#default'` **in this
+  repository** will enter a development shell with the toolchain in your `PATH`.
+  The editor setup is on your shoulder.
 
 - **2. [DevContainer](../.devcontainer)**: Using a development container with
   `podman` or `docker` (best in VS Code) which includes all bells and whistles.
@@ -47,7 +47,7 @@ If you have the package manager
 enter a development setup easily with
 
 ```shell
-nix ./tools/nix#default
+nix develop './tools/nix#default'
 ```
 
 or `just nix-develop` or automatically when [`direnv`](https://direnv.net) is
