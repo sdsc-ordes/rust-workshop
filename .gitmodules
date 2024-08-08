@@ -1,3 +1,6 @@
 [submodule "external/teach-rs"]
 	path = external/teach-rs
 	url = https://github.com/gabyx/teach-rs.git
+[submodule "external/rustlings"]
+	path = external/rustlings
+	url = https://github.com/rust-lang/rustlings.git
