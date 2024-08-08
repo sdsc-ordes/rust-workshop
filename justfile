@@ -1,6 +1,7 @@
 set positional-arguments
 set shell := ["bash", "-cue"]
 root_dir := `git rev-parse --show-toplevel`
+cargo_watch := root_dir + / ".cargo/bin/cargo-watch"
 
 # Default recipe to list all recipes.
 default:
@@ -46,11 +47,25 @@ run name *args:
     just check_exercise_dir "$dir" && \
     cd "$dir" && cargo run "${@:2}"
 
-# Continuously build the excercise with name `name`.
-watch name *args:
+# Continuously watch and build/check/run/test the excercise
+# with name `name`.
+# Usage: `just watch build basic-syntax --bin 01`
+watch type name *args: assert_cargo_watch
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
-    cd "$dir" && cargo watch -x build "${@:2}"
+    cd "$dir" && "{{cargo_watch}}" -- cargo "{{type}}" "${@:3}"
+
+[private]
+assert_cargo_watch:
+  #!/usr/bin/env bash
+  if command -v cargo-watch &>/dev/null; then
+    ls -a
+  elif [ -f "{{cargo_watch}}" ]; then
+    echo "Install 'cargo-watch' in '{{cargo_watch}}'."
+    cargo install -q --root "{{root_dir}}/.cargo" cargo-watch ||
+      echo "Could not install cargo-watch." >&2;
+  fi
+
 
 [private]
 check_exercise_dir dir:
