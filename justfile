@@ -59,7 +59,9 @@ watch type name *args: assert_cargo_watch
 assert_cargo_watch:
   #!/usr/bin/env bash
   if command -v cargo-watch &>/dev/null; then
-    ls -a
+    echo "Cargo watch already installed. Creating symlink."
+    mkdir -p "{{root_dir}}/.cargo/bin" &&
+      ln -s "$(which cargo-watch)" "{{root_dir}}/.cargo/bin"
   elif [ -f "{{cargo_watch}}" ]; then
     echo "Install 'cargo-watch' in '{{cargo_watch}}'."
     cargo install -q --root "{{root_dir}}/.cargo" cargo-watch ||
