@@ -229,8 +229,8 @@ both `Copy` and `Default`, but `iter` is available for all `LocalStorageVec`s.
 
 # I. Generic `Index` ⭐⭐⭐⭐
 
-You've probably duplicated a lot of code in exercise F..
-We can reduce the boilerplate by defining an empty trait:
+You've probably duplicated a lot of code in exercise F.. We can reduce the
+boilerplate by defining an empty trait:
 
 ```rust
 trait LocalStorageVecIndex {}

@@ -10,7 +10,11 @@ members = [
    "exercises/boxed-data",
    "exercises/config-reader",
    "exercises/binary-tree",
-   "exercises/local-storage-vec"
+   "exercises/local-storage-vec",
+   "exercises/generics",
+   "exercises/lifetimes",
+   "exercises/borrowing",
+   "exercises/composite-types",
 ]
 
 resolver = "2"
