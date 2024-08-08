@@ -1,46 +1,12 @@
-// Read the section
-// https://rust-exercises.com/100-exercises/02_basic_calculator/10_as_casting
-// TODO: based on what you learned in this section, replace `todo!()` with
-//  the correct value after the conversion.
+// TODO: Create an array called `a` with at least 100 elements in it.
 
 fn main() {
-    todo!("Implement the tests below and remove this todo.")
-}
+    todo!();
 
-// Tests; run with `cargo test --bin 08` or `just run basic-syntax --bin 08`
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn u16_to_u32() {
-        let v: u32 = todo!();
-        assert_eq!(47u16 as u32, v);
-    }
-
-    #[test]
-    fn u8_to_i8() {
-        // The compiler is smart enough to know that the value 255 cannot fit
-        // inside an i8, so it'll emit a hard error.
-        // We intentionally disable
-        // this guardrail to make this (bad) conversion possible.
-        // The compiler is only able to pick on this because the value is a
-        // literal. If we were to use a variable, the compiler wouldn't be able to
-        // catch this at compile time.
-        #[allow(overflowing_literals)]
-        let x = { 255 as i8 };
-
-        // You could solve this by using exactly the same expression as above,
-        // but that would defeat the purpose of the exercise. Instead, use a genuine
-        // `i8` value that is equivalent to `255` when converted from `u8`.
-        let y: i8 = todo!();
-
-        assert_eq!(x, y);
-    }
-
-    #[test]
-    fn bool_to_u8() {
-        let v: u8 = todo!();
-        assert_eq!(true as u8, v);
+    if a.len() >= 100 {
+        println!("Wow, that's a big array!");
+    } else {
+        println!("Meh, I eat arrays like that for breakfast.");
+        panic!("Array not big enough, more elements needed");
     }
 }
-
