@@ -172,12 +172,3 @@ X: 2; Y: 2
 
 If that works meaning it builds and runs the setup binary, you are all set for
 the exercises.
-
-## Acknowledgment
-
-Special thanks to [teach-rs](https://github.com/trifectatechfoundation/teach-rs)
-for providing exercises and slides which this whole workshop is based on.
-
-Also some parts have been taken from
-[comprehensive-rust](https://google.github.io/comprehensive-rust/). This course
-is more tailored towards C/C++ intermediates.
