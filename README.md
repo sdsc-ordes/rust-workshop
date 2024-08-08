@@ -57,7 +57,7 @@ exercise projects.
 > just watch [build|test|check|run] basic-syntax --bin 01
 > ```
 >
-> to continuously build/test/run any exercise.
+> to **continuously build/test/run** any exercise.
 
 ## Acknowledgment
 

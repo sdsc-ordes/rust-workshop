@@ -5,6 +5,8 @@ To get started, run:
 
 ```bash
 cargo run --bin 01
+# or
+just run basic-syntax --bin 01
 ```
 
 This will try to compile exercise 1. Try and get the example to run, and
@@ -15,6 +17,8 @@ Some exercises contain unit tests. To run the test in `src/bin/01.rs`, run
 
 ```bash
 cargo test --bin 01
+# or
+just run basic-syntax --bin 01
 ```
 
 Make sure all tests pass!

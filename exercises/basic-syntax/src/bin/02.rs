@@ -10,6 +10,7 @@ fn bigger(a: i32, b: i32) -> i32 {
     // TODO
 }
 
+// Tests; run with `cargo test --bin 02` or `just run basic-syntax --bin 02`
 #[cfg(test)]
 mod tests {
     use super::*;
