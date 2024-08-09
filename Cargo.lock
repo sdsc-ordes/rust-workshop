@@ -65,6 +65,10 @@ name = "exercise-a3"
 version = "0.1.0"
 
 [[package]]
+name = "extension-traits"
+version = "0.1.0"
+
+[[package]]
 name = "generics"
 version = "0.1.0"
 

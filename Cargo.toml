@@ -1,20 +1,21 @@
 [workspace]
 members = [
-   "exercises/setup",
    "exercises/basic-syntax",
-   "exercises/move-semantics",
+   "exercises/binary-tree",
+   "exercises/borrowing",
+   "exercises/boxed-data",
+   "exercises/composite-types",
+   "exercises/config-reader",
    "exercises/error-handling",
    "exercises/error-propagation",
-   "exercises/slices",
-   "exercises/ring-buffer",
-   "exercises/boxed-data",
-   "exercises/config-reader",
-   "exercises/binary-tree",
-   "exercises/local-storage-vec",
+   "exercises/extension-traits",
    "exercises/generics",
    "exercises/lifetimes",
-   "exercises/borrowing",
-   "exercises/composite-types",
+   "exercises/local-storage-vec",
+   "exercises/move-semantics",
+   "exercises/ring-buffer",
+   "exercises/setup",
+   "exercises/slices",
 ]
 
 resolver = "2"
