@@ -3,7 +3,7 @@ fn main() {
 }
 
 fn multiply(a: i32, b: i32) {
-    a * b
+    return 3;
 }
 
 // Tests; run with `cargo test --bin 01` or `just run basic-syntax --bin 01`
