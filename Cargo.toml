@@ -13,6 +13,7 @@ members = [
    "exercises/lifetimes",
    "exercises/local-storage-vec",
    "exercises/move-semantics",
+   "exercises/options",
    "exercises/ring-buffer",
    "exercises/setup",
    "exercises/slices",
