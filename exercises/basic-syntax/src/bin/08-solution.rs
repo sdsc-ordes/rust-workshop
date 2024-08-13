@@ -1,5 +1,3 @@
-// TODO: Create an array called `a` with at least 100 elements in it.
-
 fn main() {
     let a = [1; 101];
 

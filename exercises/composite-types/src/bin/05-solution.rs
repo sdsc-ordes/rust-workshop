@@ -23,12 +23,10 @@ impl Package {
         }
     }
 
-    // TODO: Add the correct return type to the function signature.
     fn is_international(&self) -> bool {
         self.sender_country != self.recipient_country
     }
 
-    // TODO: Add the correct return type to the function signature.
     fn get_fees(&self, cents_per_gram: u32) -> u32 {
         self.weight_in_grams * cents_per_gram
     }

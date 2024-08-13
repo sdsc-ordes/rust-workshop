@@ -33,7 +33,6 @@ mod tests {
     fn your_order() {
         let order_template = create_order_template();
 
-        // TODO: Create your own order using the update syntax and template above!
         let your_order = Order {
             count: 1,
             name: "Hacker in Rust".to_string(),

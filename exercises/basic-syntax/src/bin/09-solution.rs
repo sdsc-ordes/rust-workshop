@@ -1,7 +1,5 @@
 // Read the section
 // https://rust-exercises.com/100-exercises/02_basic_calculator/10_as_casting
-// TODO: based on what you learned in this section, replace `todo!()` with
-//  the correct value after the conversion.
 
 fn main() {
     todo!("Implement the tests below and remove this todo.")
