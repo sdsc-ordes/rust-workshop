@@ -1,5 +1,6 @@
 [workspace]
 members = [
+   "excercise/options"
    "exercises/basic-syntax",
    "exercises/binary-tree",
    "exercises/borrowing",

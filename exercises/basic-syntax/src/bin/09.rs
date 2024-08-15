@@ -7,7 +7,6 @@ fn main() {
     todo!("Implement the tests below and remove this todo.")
 }
 
-// Tests; run with `cargo test --bin 08` or `just run basic-syntax --bin 08`
 #[cfg(test)]
 mod tests {
 
@@ -43,4 +42,3 @@ mod tests {
         assert_eq!(true as u8, v);
     }
 }
-
