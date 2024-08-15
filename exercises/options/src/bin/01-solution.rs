@@ -6,7 +6,7 @@ fn maybe_icecream(hour_of_day: u16) -> Option<u16> {
     match hour_of_day {
         h if h < 22 => Some(5),
         h if h <= 23 => Some(0),
-        h if h > 23 => None,
+        _ => None,
     }
 }
 
@@ -20,8 +20,6 @@ mod tests {
 
     #[test]
     fn raw_value() {
-        // TODO: Fix this test. How do you get the value contained in the
-        // Option?
         let icecreams = maybe_icecream(12).expect("wrong test");
 
         assert_eq!(icecreams, 5); // Don't change this line.
