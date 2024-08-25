@@ -10,8 +10,8 @@
 fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {
     let mut dest = Vec::new();
 
-    let a_idx = 0;
-    let b_idx = 0;
+    let mut a_idx = 0;
+    let mut b_idx = 0;
 
     while a_idx < a.len() && b_idx < b.len() {
         if a[a_idx] <= b[b_idx] {
@@ -23,11 +23,11 @@ fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {
         }
     }
 
-    for elem in a[a_idx..] {
-        dest.push(elem)
+    for elem in &a[a_idx..] {
+        dest.push(*elem)
     }
-    for elem in b[b_idx..] {
-        dest.push(elem)
+    for elem in &b[b_idx..] {
+        dest.push(*elem)
     }
 
     dest
@@ -35,11 +35,22 @@ fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {
 
 /// Take an array slice, and sort into a freshly constructed vector using the above function
 fn merge_sort(data: &[i32]) -> Vec<i32> {
-    if data.len() > 1 {
-        // implement this
-        todo!()
-    } else {
-        data.to_vec()
+    match data.len() {
+        i if i > 2 => {
+            let center = data.len() / 2;
+            let l = merge_sort(&data[0..center]);
+            let r = merge_sort(&data[center..]);
+
+            merge(&l, &r)
+        }
+        2 => {
+            if data[0] < data[1] {
+                return data.to_vec();
+            } else {
+                return vec![data[1], data[0]];
+            }
+        }
+        _ => data.to_vec(),
     }
 }
 
@@ -47,8 +58,20 @@ fn merge_sort(data: &[i32]) -> Vec<i32> {
 fn read_numbers() -> Vec<i32> {
     use std::io;
     let mut result = Vec::new();
-    for line in io::stdin().lines().flatten() {
+
+    'outer: for line in io::stdin().lines().flatten() {
+        if line == "" {
+            break;
+        }
+
         for word in line.split_whitespace() {
+            if word == "end" {
+                break 'outer;
+            }
+
+            // NOTE: Notice here the type inference at play
+            //       The type for `word.parse()` will be
+            //       inferred from `push`.
             result.push(word.parse().unwrap())
         }
     }
