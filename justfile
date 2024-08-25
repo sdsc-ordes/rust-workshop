@@ -24,7 +24,7 @@ nix-develop *args:
     nix develop ./tools/nix#default --accept-flake-config --command "${cmd[@]}"
 
 # List all excercises.
-list-excercises:
+list-exercises:
   @cd "{{root_dir}}/exercises" && \
     echo "Exercises:" && \
     for i in $(find . -mindepth 1 -maxdepth 1); do \
@@ -40,7 +40,7 @@ build name *args:
 test name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
-    cd "$dir" && cargo run "${@:2}"
+    cd "$dir" && cargo test "${@:2}"
 
 run name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
