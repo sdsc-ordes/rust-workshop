@@ -1,21 +1,5 @@
-// This a unfinished implementation of the well-known merge sort algorithm
-//
-// 1. Fix the language problems in the function merge
-//
-// 2. Finish the implementation of the function merge_sort
-//
-// 3. EXTRA: try changing the type from i32 into String everywhere; does your program still compile? What changes are necessary?
-//
-// - The solutions:
-//   1. main-string-solution.rs uses a `String` inplace of `i32` and
-//      also introduces references `&String` which circumvents
-//      to clone the string.
-//   2. main-str-solution.rs works the same just introduces `&str`
-//      instead of `&String`
-//   3. main-T-solution.rs works more generic for both `i32` and `String`
-
 /// Merge two array slices (that have to be sorted) into a vector
-fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {
+fn merge<'a>(a: &[&'a String], b: &[&'a String]) -> Vec<&'a String> {
     let mut dest = Vec::new();
 
     let mut a_idx = 0;
@@ -32,17 +16,17 @@ fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {
     }
 
     for elem in &a[a_idx..] {
-        dest.push(*elem)
+        dest.push(elem)
     }
     for elem in &b[b_idx..] {
-        dest.push(*elem)
+        dest.push(elem)
     }
 
     dest
 }
 
 /// Take an array slice, and sort into a freshly constructed vector using the above function
-fn merge_sort(data: &[i32]) -> Vec<i32> {
+fn merge_sort<'a>(data: &[&'a String]) -> Vec<&'a String> {
     match data.len() {
         i if i > 2 => {
             let center = data.len() / 2;
@@ -62,8 +46,8 @@ fn merge_sort(data: &[i32]) -> Vec<i32> {
     }
 }
 
-/// Read a bunch of numbers from standard input into a Vec<i32>.
-fn read_numbers() -> Vec<i32> {
+/// Read a bunch of numbers from standard input into a Vec<String>.
+fn read_numbers() -> Vec<String> {
     use std::io;
     let mut result = Vec::new();
 
@@ -88,29 +72,12 @@ fn read_numbers() -> Vec<i32> {
 }
 
 fn main() {
-    let input = read_numbers();
+    let ins = read_numbers();
     println!("Data to be sorted:");
-    println!("{input:?}");
+    println!("{ins:?}");
 
+    let input: Vec<&String> = ins.iter().collect();
     let sorted_input = merge_sort(&input);
     println!("Sorted data:");
     println!("{sorted_input:?}");
-}
-
-// you can run these automatic tests by typing 'cargo test'
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_sort() {
-        assert_eq!(merge_sort(&[]), vec![]);
-        assert_eq!(merge_sort(&[5]), vec![5]);
-        assert_eq!(merge_sort(&[1, 2, 3]), vec![1, 2, 3]);
-        assert_eq!(merge_sort(&[47, 42, 5, 1]), vec![1, 5, 42, 47]);
-        assert_eq!(
-            merge_sort(&[6, 47, 42, 5, 1, 123]),
-            vec![1, 5, 6, 42, 47, 123]
-        );
-    }
 }
