@@ -13,6 +13,10 @@
 // 2) Besides the explicit panic!()'s, there is a second source of errors that this
 //    program currently ignores; what are these?
 //
+//    - `stdout().flush()` has no error handling.
+//    - `stdin().read_line()` has also no error handling.
+//    These will not pass any `cargo clippy`
+//
 // 3) We have provided an error type for properly reporting all errors that get_username()
 //    might generate; change the function get_username
 //    so that it returns a Result<String, MyError>.
@@ -36,28 +40,51 @@ enum MyError {
     IOError(io::Error),
 }
 
-fn get_username() -> String {
+fn get_username() -> Result<String, MyError> {
     print!("Username: ");
-    io::stdout().flush();
+    if let Err(e) = io::stdout().flush() {
+        return Err(MyError::IOError(e));
+    }
 
     let mut input = String::new();
-    io::stdin().lock().read_line(&mut input);
+    if let Err(e) = io::stdin().lock().read_line(&mut input) {
+        return Err(MyError::IOError(e));
+    };
+
     input = input.trim().to_string();
 
     for c in input.chars() {
         if !char::is_alphabetic(c) {
-            panic!("that's not a valid name, try again");
+            return Err(MyError::InvalidName);
         }
     }
 
     if input.is_empty() {
-        panic!("that's not a valid name, try again");
+        return Err(MyError::InvalidName);
     }
 
-    input
+    return Ok(input);
 }
 
 fn main() {
-    let name = get_username();
-    println!("Hello {name}!")
+    // Loop until no more error occurred.
+    let name = loop {
+        match get_username() {
+            Err(MyError::IOError(i)) => {
+                panic!("IOError occurred: {}", i)
+            }
+            Err(MyError::InvalidName) => {
+                println!(
+                    "Invalid username given: \
+                 Must be 'alphanumeric' and not empty."
+                );
+                continue;
+            }
+            Ok(n) => {
+                break n;
+            }
+        }
+    };
+
+    println!("Hello {name}!");
 }
