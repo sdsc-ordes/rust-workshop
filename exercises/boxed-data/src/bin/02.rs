@@ -27,9 +27,7 @@ enum Expr {
 }
 
 // inject these two identifiers directly into the current namespace
-use Expr::Const;
-use Expr::Summation;
-use Expr::Var;
+use Expr::{Const, Summation, Var};
 
 // These are convenience functions, so you don't have to type "Box::new" as often
 // when building test-data types
