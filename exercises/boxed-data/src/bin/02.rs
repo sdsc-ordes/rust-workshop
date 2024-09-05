@@ -11,6 +11,9 @@
 ///   Question: why can we get away with Vec<Expr> enough
 ///   in that case, instead of Box<Vec<Expr>> ?
 ///
+///   Answer: The `Vec` already allocates on the heap
+///           for its continuous array.
+///
 /// - EXTRA: Since division can fail, the function eval
 ///   needs to return an Option<i64>, where None indicates that a division by
 ///   zero has occurred.
@@ -22,6 +25,8 @@ enum Expr {
     Const(i64),
     Add(Box<Expr>, Box<Expr>),
     Sub(Box<Expr>, Box<Expr>),
+    Mul(Box<Expr>, Box<Expr>),
+    Div(Box<Expr>, Box<Expr>),
     Var,
     Summation(Vec<Expr>),
 }
@@ -40,14 +45,12 @@ fn sub(x: Expr, y: Expr) -> Expr {
 }
 
 fn mul(x: Expr, y: Expr) -> Expr {
-    todo!()
+    Expr::Mul(Box::new(x), Box::new(y))
 }
 
 fn div(x: Expr, y: Expr) -> Expr {
-    todo!()
+    Expr::Div(Box::new(x), Box::new(y))
 }
-
-// ...
 
 fn eval(expr: &Expr, var: i64) -> i64 {
     // this should return an Option<i64>
@@ -56,8 +59,11 @@ fn eval(expr: &Expr, var: i64) -> i64 {
     match expr {
         Const(k) => *k,
         Var => var,
+
         Add(lhs, rhs) => eval(lhs, var) + eval(rhs, var),
         Sub(lhs, rhs) => eval(lhs, var) - eval(rhs, var),
+        Mul(lhs, rhs) => eval(lhs, var) * eval(rhs, var),
+        Div(lhs, rhs) => eval(lhs, var) / eval(rhs, var),
 
         Summation(exprs) => {
             let mut acc = 0;
@@ -85,6 +91,9 @@ fn main() {
     test(sub(Var, Const(5)));
     test(sub(Var, Var));
     test(add(sub(Var, Const(5)), Const(5)));
+    test(mul(sub(Var, Const(5)), Const(5)));
+    test(div(Var, Const(5)));
+    test(sub(div(Var, Const(5)), Const(10)));
     test(Summation(vec![Var, Const(1)]));
 }
 
