@@ -52,27 +52,41 @@ fn div(x: Expr, y: Expr) -> Expr {
     Expr::Div(Box::new(x), Box::new(y))
 }
 
-fn eval(expr: &Expr, var: i64) -> i64 {
+fn try_eval(expr: &Expr, var: i64) -> Option<i64> {
     // this should return an Option<i64>
     use Expr::*;
 
     match expr {
-        Const(k) => *k,
-        Var => var,
+        Const(k) => Some(*k),
+        Var => Some(var),
 
-        Add(lhs, rhs) => eval(lhs, var) + eval(rhs, var),
-        Sub(lhs, rhs) => eval(lhs, var) - eval(rhs, var),
-        Mul(lhs, rhs) => eval(lhs, var) * eval(rhs, var),
-        Div(lhs, rhs) => eval(lhs, var) / eval(rhs, var),
+        Add(lhs, rhs) => Some(try_eval(lhs, var)? + try_eval(rhs, var)?),
+        Sub(lhs, rhs) => Some(try_eval(lhs, var)? - try_eval(rhs, var)?),
+        Mul(lhs, rhs) => Some(try_eval(lhs, var)? * try_eval(rhs, var)?),
+        Div(lhs, rhs) => {
+            let divisor = eval(rhs, var);
+            if divisor != 0 {
+                Some(eval(lhs, var) / divisor)
+            } else {
+                None
+            }
+        }
 
         Summation(exprs) => {
             let mut acc = 0;
             for e in exprs {
-                acc += eval(e, var);
+                acc += try_eval(e, var)?;
             }
-            acc
+            Some(acc)
         }
     }
+}
+
+fn eval(expr: &Expr, var: i64) -> i64 {
+    try_eval(expr, var).unwrap_or_else(|| {
+        println!("!!! Evaluation failed due to math. errors. -> Setting 0");
+        0
+    })
 }
 
 fn main() {
@@ -95,6 +109,8 @@ fn main() {
     test(div(Var, Const(5)));
     test(sub(div(Var, Const(5)), Const(10)));
     test(Summation(vec![Var, Const(1)]));
+
+    test(div(Var, sub(Const(10), Const(10))));
 }
 
 #[cfg(test)]
@@ -110,6 +126,7 @@ mod test {
         assert_eq!(eval(&sub(Var, Var), x), 0);
         assert_eq!(eval(&add(sub(Var, Const(5)), Const(5)), x), 42);
         assert_eq!(eval(&Summation(vec![Var, Const(1)]), x), 43);
+        assert_eq!(try_eval(&div(Const(4), Const(0)), x), None);
     }
 }
 
