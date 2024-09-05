@@ -9,11 +9,15 @@
 // `fatorial(n) := n * factorial(n-1)`
 
 fn main() {
-    println!("Factorial of 10 is {}", factorial(10))
+    println!("Factorial of 10 is {}", factorial(10));
 }
 
 fn factorial(n: u32) -> u32 {
-    todo!("implement this function here")
+    if n == 0 {
+        1
+    } else {
+        n * factorial(n - 1)
+    }
 }
 
 // Tests; run with `cargo test --bin 07` or `just run basic-syntax --bin 07`

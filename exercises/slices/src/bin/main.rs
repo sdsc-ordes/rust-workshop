@@ -7,12 +7,12 @@
 // 3. EXTRA: try changing the type from i32 into String everywhere; does your program still compile? What changes are necessary?
 //
 // - The solutions:
-//   1. main-string-solution.rs uses a `String` inplace of `i32` and
+//   1. main-string.rs uses a `String` inplace of `i32` and
 //      also introduces references `&String` which circumvents
 //      to clone the string.
-//   2. main-str-solution.rs works the same just introduces `&str`
+//   2. main-str.rs works the same just introduces `&str`
 //      instead of `&String`
-//   3. main-T-solution.rs works more generic for both `i32` and `String`
+//   3. main-T.rs works more generic for both `i32` and `String`
 
 /// Merge two array slices (that have to be sorted) into a vector
 fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {

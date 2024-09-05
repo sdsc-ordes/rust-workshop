@@ -5,11 +5,10 @@
 fn main() {
     let s0 = String::from("Hello");
 
-    let mut s1 = append_to_string(s0);
-
     // Don't change the following line!
     println!("{} == `{}`", stringify!(s0), s0);
 
+    let mut s1 = append_to_string(s0);
     s1.push('!');
 
     println!("{} == `{}`", stringify!(s1), s1);

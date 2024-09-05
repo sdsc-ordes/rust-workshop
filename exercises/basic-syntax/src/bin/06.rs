@@ -10,10 +10,13 @@ fn main() {
 
 // This function computes the average speed for a walk which took
 // `time_elapsed` from `start` to `end`.
-// TODO: Implement the function.
-// TODO: Panic with a custom message if `time_elapsed` is 0 (use the `panic!`)
 fn speed(start: u32, end: u32, time_elapsed: u32) -> u32 {
-    todo!("implement this function here")
+    let distance = end.abs_diff(start);
+    if time_elapsed == 0 {
+        panic!("The journey took no time at all, that's impossible!")
+    }
+
+    distance / time_elapsed
 }
 
 // Tests; run with `cargo test --bin 06` or `just run basic-syntax --bin 06`

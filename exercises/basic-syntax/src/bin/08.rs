@@ -1,7 +1,5 @@
-// TODO: Create an array called `a` with at least 100 elements in it.
-
 fn main() {
-    todo!();
+    let a = [1; 101];
 
     if a.len() >= 100 {
         println!("Wow, that's a big array!");

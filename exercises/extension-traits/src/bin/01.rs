@@ -40,17 +40,40 @@ where
     I: Iterator,
     I::Item: Eq + Hash + Clone,
 {
-    //TODO: 1. Implement here a `new` function to construct
-    //         `UniqueIterator`.
+    // Construct a new unique iterator from an existing one.
+    fn new(it: I) -> UniqueIterator<I> {
+        UniqueIterator {
+            iter: it,
+            visited: HashSet::new(),
+        }
+    }
 }
 
-// TODO: 3. Implement the `Iterator` trait for `UniqueIterator`.
-//          Hint: You need to only provide one function, which one is it?
-//          Hint: Also you need to define the associated type `Item`.
-//
-// TODO: 5. Implement the `UniqueIteratorExt` trait which provides a
-//          function `fn unique(self) -> ?`.
-//          What should it return?
+impl<I> Iterator for UniqueIterator<I>
+where
+    I: Iterator,
+    I::Item: Eq + Hash + Clone,
+{
+    type Item = I::Item;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        return self.iter.find(|x| self.visited.insert(x.clone()));
+    }
+}
+
+trait UniqueIteratorExt: Iterator {
+    // Note: `Self` here is the iterator type for
+    // which this UniqueIteratorExt gets implemented.
+    fn unique(self) -> UniqueIterator<Self>
+    where
+        Self: Sized,
+        Self::Item: Eq + Hash + Clone,
+    {
+        UniqueIterator::<Self>::new(self) // you can also omit the `::<Self>`
+    }
+}
+
+impl<T: Iterator> UniqueIteratorExt for T {}
 
 fn main() {
     let values = [1, 2, 3, 4, 4, 2, 5];
@@ -59,22 +82,10 @@ fn main() {
     values.iter().for_each(|x| println!("Value: {x}"));
 
     println!("Only unique values:");
-    // TODO: 1. Implement a `new` function to construct a `UniqueIterator` from
-    //          `values.iter()` and
-    //          construct a `it_unique` variable here.
-
-    // TODO: 3. Implement the iterator interface above,
-    //          and delete this comment.
-
-    // TODO: 4. Exhaust the iterator here
-    //          by using it and printing values to stdout.
-
-    // TODO: 5. Implement the `UniqueIteratorExt` trait above.
+    let it = values.iter();
+    let unique_it = UniqueIterator::new(it);
+    unique_it.for_each(|x| println!("Value: {x}"));
 
     println!("Only unique values, but now with `unique()`:");
-    // TODO: 6. Use the `unique()` function on `values` and print
-    //          the same as in 2.
-
-    // Wow, you learned some awesome techniques and mechanism about
-    // traits and iterators which make Rust great.
+    values.iter().unique().for_each(|x| println!("Value: {x}"));
 }

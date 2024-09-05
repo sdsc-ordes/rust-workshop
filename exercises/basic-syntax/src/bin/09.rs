@@ -1,18 +1,17 @@
 // Read the section
 // https://rust-exercises.com/100-exercises/02_basic_calculator/10_as_casting
-// TODO: based on what you learned in this section, replace `todo!()` with
-//  the correct value after the conversion.
 
 fn main() {
     todo!("Implement the tests below and remove this todo.")
 }
 
+// Tests; run with `cargo test --bin 08` or `just run basic-syntax --bin 08`
 #[cfg(test)]
 mod tests {
 
     #[test]
     fn u16_to_u32() {
-        let v: u32 = todo!();
+        let v: u32 = 47;
         assert_eq!(47u16 as u32, v);
     }
 
@@ -31,14 +30,14 @@ mod tests {
         // You could solve this by using exactly the same expression as above,
         // but that would defeat the purpose of the exercise. Instead, use a genuine
         // `i8` value that is equivalent to `255` when converted from `u8`.
-        let y: i8 = todo!();
+        let y: i8 = -1;
 
         assert_eq!(x, y);
     }
 
     #[test]
     fn bool_to_u8() {
-        let v: u8 = todo!();
+        let v: u8 = 1;
         assert_eq!(true as u8, v);
     }
 }
