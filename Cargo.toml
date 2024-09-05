@@ -17,6 +17,7 @@ members = [
    "exercises/ring-buffer",
    "exercises/setup",
    "exercises/slices",
+   "exercises/std-traits",
 ]
 
 resolver = "2"
