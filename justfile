@@ -23,7 +23,7 @@ nix-develop *args:
     { [ -n "${cmd:-}" ] || cmd=("zsh"); } && \
     nix develop ./tools/nix#default --accept-flake-config --command "${cmd[@]}"
 
-# List all excercises.
+# List all exercises.
 list-exercises:
   @cd "{{root_dir}}/exercises" && \
     echo "Exercises:" && \
@@ -31,7 +31,7 @@ list-exercises:
       echo "- '$(basename "$i")'"; \
     done
 
-# Build the excercise with name `name`.
+# Build the exercise with name `name`.
 build name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
@@ -47,13 +47,18 @@ run name *args:
     just check_exercise_dir "$dir" && \
     cd "$dir" && cargo run "${@:2}"
 
-# Continuously watch and build/check/run/test the excercise
+# Continuously watch and build/check/run/test the exercise
 # with name `name`.
 # Usage: `just watch build basic-syntax --bin 01`
 watch type name *args: assert_cargo_watch
   dir="{{root_dir}}/exercises/{{name}}" && \
     just check_exercise_dir "$dir" && \
     cd "$dir" && "{{cargo_watch}}" -- cargo "{{type}}" "${@:3}"
+
+# Shows the solution on the branch `feat/solutions`
+# for the specific file `path`
+show-solution path:
+    git diff HEAD...feat/solutions -- "{{path}}"
 
 [private]
 assert_cargo_watch:
@@ -82,7 +87,7 @@ check_exercise_dir dir:
   [ -d "$dir" ] || {
     echo "Exercise '$dir' does not exist!"
     echo "Choose one of the following:"
-    just list-excercises
+    just list-exercises
     exit 1
   }
 
