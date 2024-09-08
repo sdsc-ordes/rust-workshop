@@ -3,7 +3,11 @@
 This repository contains exercises accompanied by the
 [Rust Workshop Presentation](https://github.com/sdsc-ordes/technical-presentation/tree/gabriel.nuetzi/rust-workshop).
 
-The presentation slides can be watched here: <!-- TODO: Add here the link -->
+(**Presentation Slides:
+here.**)[https://sdsc-ordes.github.io/technical-presentation/gh-pages/rust-workshop]
+
+(**Excercise Solution Branch:
+here.**)[https://github.com/sdsc-ordes/rust-workshop/tree/feat/solutions]
 
 ## Preliminaries
 
@@ -58,6 +62,12 @@ exercise projects.
 > ```
 >
 > to **continuously build/test/run** any exercise.
+
+## Solutions
+
+The solutions to most exercises are on the branch `feat/solutions` and you can
+simply use `git diff HEAD...feat/solution -- <path>` where `<path>` is the path
+to a Rust file you are interested in looking at the solution.
 
 ## Acknowledgment
 
