@@ -54,9 +54,6 @@ or `just nix-develop` or automatically when [`direnv`](https://direnv.net) is
 installed and [setup for your shell](https://direnv.net/docs/hook.html) and
 `direnv allow` was executed inside the repository.
 
-**Note:** Make sure to enable `flakes` and `nix-command` in
-[your `nix` config](https://nixos.wiki/wiki/Flakes#Other_Distros,_without_Home-Manager)
-
 ### 2. Dev Container Setup
 
 Open `code` and use `Reopen in Container` to enter the
