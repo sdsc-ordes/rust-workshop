@@ -18,6 +18,7 @@ members = [
    "exercises/setup",
    "exercises/slices",
    "exercises/std-traits",
+   "exercises/closures",
 ]
 
 resolver = "2"
