@@ -19,6 +19,7 @@ members = [
    "exercises/slices",
    "exercises/std-traits",
    "exercises/closures",
+   "exercises/proc-macros", "tools/nix",
 ]
 
 resolver = "2"

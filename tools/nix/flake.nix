@@ -21,7 +21,7 @@
 
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
-    nixpkgsStable.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgsStable.url = "github:nixos/nixpkgs/nixos-24.11";
     # Also see the 'stable-packages' overlay at 'overlays/default.nix'.
 
     flake-utils.url = "github:numtide/flake-utils";
@@ -35,57 +35,60 @@
     };
   };
 
-  outputs = {
-    nixpkgs,
-    flake-utils,
-    rust-overlay,
-    ...
-  }:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      rust-overlay,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem
-    # Creates an attribute map `{ devShells.<system>.default = ...}`
-    # by calling this function:
-    (
-      system: let
-        overlays = [
-          (import rust-overlay)
-        ];
+      # Creates an attribute map `{ devShells.<system>.default = ...}`
+      # by calling this function:
+      (
+        system:
+        let
+          overlays = [
+            (import rust-overlay)
+          ];
 
-        # Import nixpkgs and load it into pkgs.
-        # Overlay the rust toolchain
-        pkgs = import nixpkgs {
-          inherit system overlays;
-        };
+          # Import nixpkgs and load it into pkgs.
+          # Overlay the rust toolchain
+          pkgs = import nixpkgs {
+            inherit system overlays;
+          };
 
-        # Set the rust toolchain from the `rust-toolchain.toml`.
-        rustToolchain = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile ./../../rust-toolchain.toml;
+          # Set the rust toolchain from the `rust-toolchain.toml`.
+          rustToolchain = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile ./../../rust-toolchain.toml;
 
-        # Things needed only at compile-time.
-        nativeBuildInputsBasic = with pkgs; [
-          findutils
-          coreutils
-          bash
-          zsh
-          curl
-          git
-          jq
-        ];
+          # Things needed only at compile-time.
+          nativeBuildInputsBasic = with pkgs; [
+            findutils
+            coreutils
+            bash
+            zsh
+            curl
+            git
+            jq
+          ];
 
-        # Things needed only at compile-time.
-        nativeBuildInputsDev = with pkgs; [
-          rustToolchain
-          cargo-watch
-          just
+          # Things needed only at compile-time.
+          nativeBuildInputsDev = with pkgs; [
+            rustToolchain
+            cargo-watch
+            just
 
-          lldb_18 # For lldb-dap (formerly lldb-vscode)
+            lldb_18 # For lldb-dap (formerly lldb-vscode)
 
-          nodePackages.prettier
-          devcontainer
-        ];
+            nodePackages.prettier
+            devcontainer
+          ];
 
-        # Things needed at runtime.
-        buildInputs = [];
-      in
-        with pkgs; {
+          # Things needed at runtime.
+          buildInputs = [ ];
+        in
+        with pkgs;
+        {
           devShells = {
             default = mkShell {
               inherit buildInputs;
@@ -93,5 +96,5 @@
             };
           };
         }
-    );
+      );
 }
