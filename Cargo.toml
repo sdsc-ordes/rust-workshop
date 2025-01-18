@@ -19,6 +19,7 @@ members = [
    "exercises/slices",
    "exercises/std-traits",
    "exercises/closures",
+   "exercises/proc-macros",
    "exercises/blanket-implementation",
    "exercises/drop-with-errors",
 ]
