@@ -11,6 +11,10 @@ name = "binary-tree"
 version = "0.1.0"
 
 [[package]]
+name = "blanket-implementation"
+version = "0.1.0"
+
+[[package]]
 name = "borrowing"
 version = "0.1.0"
 
