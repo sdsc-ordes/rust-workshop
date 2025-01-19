@@ -19,6 +19,7 @@ members = [
    "exercises/slices",
    "exercises/std-traits",
    "exercises/closures",
+   "exercises/blanket-implementation",
 ]
 
 resolver = "2"
