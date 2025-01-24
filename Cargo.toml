@@ -20,6 +20,7 @@ members = [
    "exercises/std-traits",
    "exercises/closures",
    "exercises/blanket-implementation",
+   "exercises/drop-with-errors",
 ]
 
 resolver = "2"
