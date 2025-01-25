@@ -12,8 +12,13 @@
 // <pattern>            ::= expression
 // <range>              ::= expression
 
+// In the beginning we need proc_macro2 and when we are finished, we
+// turn these crate to `proc_macro` which is the compiler internal crate.
+type TokenStream2 = proc_macro2::TokenStream;
+
+use quote::quote;
 use syn::parse::ParseStream;
-use syn::Result;
+use syn::parse_macro_input;
 
 #[derive(Debug)]
 struct Comprehension {
@@ -28,26 +33,57 @@ struct Mapping(syn::Expr);
 struct ForIfClause {
     pattern: Pattern,
     range: syn::Expr,
-    condition: Conditions,
+    if_clauses: IfClauses,
 }
 
 #[derive(Debug)]
 struct Pattern(syn::Pat);
 
 #[derive(Debug)]
-struct Condition(syn::Expr);
+struct IfClauses(Vec<IfClause>);
 
 #[derive(Debug)]
-struct Conditions(Vec<Condition>);
+struct IfClause(syn::Expr);
+
+impl syn::parse::Parse for Comprehension {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        Ok(Self {
+            mapping: input.parse()?,
+            for_if_clause: input.parse()?,
+        })
+    }
+}
+
+impl syn::parse::Parse for Mapping {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        syn::Expr::parse(input).map(Self)
+    }
+}
+
+impl syn::parse::Parse for ForIfClause {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let _for: syn::Token![for] = input.parse()?;
+        let pattern: Pattern = input.parse()?;
+        let _in: syn::Token![in] = input.parse()?;
+        let range: syn::Expr = input.parse()?;
+        let if_clauses: IfClauses = input.parse()?;
+
+        Ok(Self {
+            pattern,
+            range,
+            if_clauses,
+        })
+    }
+}
 
 impl syn::parse::Parse for Pattern {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
         syn::Pat::parse_single(input).map(Self)
     }
 }
 
-impl syn::parse::Parse for Condition {
-    fn parse(input: ParseStream) -> Result<Self> {
+impl syn::parse::Parse for IfClause {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
         // Parse the 'if' token.
         let _if: syn::Token![if] = input.parse()?;
         // Parse the conditional expression.
@@ -55,24 +91,63 @@ impl syn::parse::Parse for Condition {
     }
 }
 
-impl syn::parse::Parse for Conditions {
-    fn parse(input: ParseStream) -> Result<Self> {
-        Ok(Self(vec![]))
+impl syn::parse::Parse for IfClauses {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        Ok(Self(parse_zero_or_more::<IfClause>(input)))
     }
 }
 
-impl syn::parse::Parse for ForIfClause {
-    fn parse(input: ParseStream) -> Result<Self> {
-        let _if: syn::Token![for] = input.parse()?;
-        let pattern: Pattern = input.parse()?;
-        let _in: syn::Token![in] = input.parse()?;
-        let range: syn::Expr = input.parse()?;
-        let condition: Conditions = input.parse()?;
+fn parse_zero_or_more<T: syn::parse::Parse>(input: ParseStream) -> Vec<T> {
+    let mut res = Vec::new();
+    while let Ok(item) = input.parse() {
+        res.push(item);
+    }
+    res
+}
 
-        Ok(Self {
+// Quoting
+impl quote::ToTokens for Comprehension {
+    fn to_tokens(&self, tokens: &mut TokenStream2) {
+        // Turning the parsed structures from `comprehnsion![ x*2 for x in [1, 2, 3, 4] ]` into
+        // a token stream of equivalent Rust code.
+        let Mapping(mapping) = &self.mapping;
+        let ForIfClause {
             pattern,
             range,
-            condition,
-        })
+            if_clauses,
+        } = &self.for_if_clause;
+
+        // Create an iterator over various `if-expressions` (TokenStream2).
+        let ifs = if_clauses.0.iter().map(|c| {
+            quote! { #c }
+        });
+
+        let s = quote! {
+            core::iter::IntoIterator::into_iter(#range).filter_map(|#pattern| {
+                (true #(&& (#ifs))*).then(|| #mapping)
+            })
+        };
+
+        tokens.extend(s);
     }
+}
+
+// These implementation are always gonna be like that.
+impl quote::ToTokens for Pattern {
+    fn to_tokens(&self, tokens: &mut TokenStream2) {
+        self.0.to_tokens(tokens);
+    }
+}
+
+impl quote::ToTokens for IfClause {
+    fn to_tokens(&self, tokens: &mut TokenStream2) {
+        self.0.to_tokens(tokens);
+    }
+}
+
+#[proc_macro]
+pub fn comp(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let c = syn::parse_marco_input!(input as Comprehension);
+
+    quote! {""}.into()
 }
