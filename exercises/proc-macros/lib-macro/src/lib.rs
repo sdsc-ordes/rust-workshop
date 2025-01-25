@@ -17,8 +17,7 @@
 type TokenStream2 = proc_macro2::TokenStream;
 
 use quote::quote;
-use syn::parse::ParseStream;
-use syn::parse_macro_input;
+use syn::{parse::ParseStream, parse_macro_input};
 
 #[derive(Debug)]
 struct Comprehension {
@@ -146,8 +145,9 @@ impl quote::ToTokens for IfClause {
 }
 
 #[proc_macro]
-pub fn comp(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+pub fn comprehension(
+    input: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
     let c = syn::parse_marco_input!(input as Comprehension);
-
-    quote! {""}.into()
+    quote! {#c}.into()
 }
