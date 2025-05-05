@@ -1,11 +1,12 @@
 # 🦀 Rust Workshop - From Python to Rust - Fundamentals
 
-We at SDSC ETH Zurich conduct a Rust Workshop (2nd time), and I think I can
-still fit some people from the **RSE community** who like to join (its remote).
-Write me an email at
+SDSC is organizing a 2nd round of an "Introduction to Rust" workshop and we have
+some extra seats for anyone in the RSE community who would like to join
+(remotely). If you're interested, write an email to
 [gabriel.nuetzi@sdsc.ethz.ch](mailto:gabriel.nuetzi@sdsc.ethz.ch) (Subject:
-`Rust Workshop Registration`). **First come first serves.** You will be invited
-to the Zoom Meetings and temporary Slack Channel for the Workshop.
+`Rust Workshop Registration`). We will accept participants in a first come first
+serve basis and you will be invited to the Zoom Meetings and temporary Slack
+Channel for the Workshop.
 
 ## Target Audience
 
@@ -27,7 +28,8 @@ to the Zoom Meetings and temporary Slack Channel for the Workshop.
   - **Exercise: 13-14**
 - **Session 2: 20. May 25: 9-11h**
   - **Exercise: 13-14**
-- **Session 3: 22. May 25: 13-14h** (if Exercises will be announced.)
+- **Session 3: 22. May 25: 13-14h** (if Exercises or Presentation will be
+  announced.)
 - **Session 4: 26. May 25: 9-11h**
   - **Exercise: 13-14**
 - **Session 5: 27. May 25: 9-11h**
@@ -38,15 +40,15 @@ to the Zoom Meetings and temporary Slack Channel for the Workshop.
 > Note: Exercises Sessions can be done on your own, there will be no
 > presentation. But I and other people will be around to answer your questions.
 
-## ⚒️Preliminaries
+## ⚒️Preparation
 
-I need your help to prepare your awesome DevSetup with some Rust stuff:
+In order to avoid technical issues at the workshop, you must have the following
+setup ready **before attending**:
 
 **[Follow these instructions](https://github.com/sdsc-ordes/rust-workshop#preliminaries)**
 
-**You must have the setup completed before attending the workshop, we don't fix
-issues at the workshop.** You should choose either the DevContainer setup or the
-Nix setup.
+The setup will make your Rust life much easier in order for you to enjoy using
+the language as much as we do ;)
 
 Please reach out if something is not working and if you have trouble using it!
 PRs on typos/fixes in this repo are welcome! You dont need to look at the
