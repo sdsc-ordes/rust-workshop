@@ -50,7 +50,7 @@ Nix setup.
 
 Please reach out if something is not working and if you have trouble using it!
 PRs on typos/fixes in this repo are welcome! You dont need to look at the
-exercises
-yet,[relax and sip an El Tony!](https://c.tenor.com/fyCY5Hq8JmgAAAAC/tenor.gif)
+exercises yet,
+[relax and sip an El Tony!](https://c.tenor.com/fyCY5Hq8JmgAAAAC/tenor.gif)
 
 **BR and and see you soon.**
