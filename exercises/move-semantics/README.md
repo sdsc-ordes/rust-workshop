@@ -19,7 +19,7 @@ Some exercises contain unit tests. To run the test in `src/bin/01.rs`, run
 ```bash
 cargo test --bin 01
 # or
-just run move-semantics --bin 01
+just test move-semantics --bin 01
 ```
 
 Make sure all tests pass!
