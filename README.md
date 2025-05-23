@@ -1,10 +1,11 @@
 # Rust Workshop
 
 This repository contains exercises accompanied by the
-[Rust Workshop Presentation](https://github.com/sdsc-ordes/technical-presentation/tree/gabriel.nuetzi/rust-workshop).
+[Rust Workshop Presentation](https://github.com/sdsc-ordes/technical-presentation/tree/feat/rust-workshop).
 
-(**Presentation Slides:
-here.**)[https://sdsc-ordes.github.io/technical-presentation/gh-pages/rust-workshop]
+**Presentation Slides:**
+- [**Part 1**](https://sdsc-ordes.github.io/technical-presentation/gh-pages/rust-workshop/part-1)
+- [**Part 2**](https://sdsc-ordes.github.io/technical-presentation/gh-pages/rust-workshop/part-2)
 
 (**Excercise Solution Branch:
 here.**)[https://github.com/sdsc-ordes/rust-workshop/tree/feat/solutions]
