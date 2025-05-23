@@ -19,6 +19,13 @@ type TokenStream2 = proc_macro2::TokenStream;
 use quote::quote;
 use syn::{parse::ParseStream, parse_macro_input};
 
+/// This is a comprehension written as e.g.
+/// `[ x*x for x in x[0..2] ]`
+///        --------------- := `for_if_clause`
+///    --- : `mapping`
+///
+/// This struct implements `parse` as all other
+/// downstream ones.
 #[derive(Debug)]
 struct Comprehension {
     mapping: Mapping,
@@ -92,19 +99,33 @@ impl syn::parse::Parse for IfClause {
 
 impl syn::parse::Parse for IfClauses {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        Ok(Self(parse_zero_or_more::<IfClause>(input)))
+        Ok(Self(parse_zero_or_more::<IfClause>(input)?))
     }
 }
 
-fn parse_zero_or_more<T: syn::parse::Parse>(input: ParseStream) -> Vec<T> {
+fn parse_zero_or_more<T: syn::parse::Parse>(
+    input: ParseStream,
+) -> syn::Result<Vec<T>> {
     let mut res = Vec::new();
-    while let Ok(item) = input.parse() {
-        res.push(item);
+
+    while !input.is_empty() {
+        match input.parse::<T>() {
+            Ok(item) => res.push(item),
+            Err(e) => {
+                syn::Error::new(
+                    e.span(),
+                    "could not parse `if ...` statement in `comp!`!",
+                );
+                return Err(e);
+            }
+        }
     }
-    res
+
+    Ok(res)
 }
 
-// Quoting
+/// Implementing quoting for [] which turns this into expression
+/// into Rust code again.
 impl quote::ToTokens for Comprehension {
     fn to_tokens(&self, tokens: &mut TokenStream2) {
         // Turning the parsed structures from `comprehnsion![ x*2 for x in [1, 2, 3, 4] ]` into
@@ -131,13 +152,14 @@ impl quote::ToTokens for Comprehension {
     }
 }
 
-// These implementation are always gonna be like that.
+/// Turn [`Pattern`] expression into Rust code again.
 impl quote::ToTokens for Pattern {
     fn to_tokens(&self, tokens: &mut TokenStream2) {
         self.0.to_tokens(tokens);
     }
 }
 
+/// Turn [`IfClause`] expression into Rust code again.
 impl quote::ToTokens for IfClause {
     fn to_tokens(&self, tokens: &mut TokenStream2) {
         self.0.to_tokens(tokens);
@@ -145,9 +167,16 @@ impl quote::ToTokens for IfClause {
 }
 
 #[proc_macro]
-pub fn comprehension(
-    input: proc_macro::TokenStream,
-) -> proc_macro::TokenStream {
-    let c = syn::parse_marco_input!(input as Comprehension);
-    quote! {#c}.into()
+pub fn comp(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let c = parse_macro_input!(input as Comprehension);
+    let s = quote! {#c}.into();
+    eprintln!(
+        "=======================\n\
+        Proc-macro generated code:\n\
+        '{}'\n\
+        ========================",
+        s
+    );
+
+    s
 }
