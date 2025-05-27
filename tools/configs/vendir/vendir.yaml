@@ -1,0 +1,27 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+directories:
+  - path: external/rustlings
+    permissions: 0700
+
+    contents:
+      - path: .
+        git:
+          url: https://github.com/rust-lang/rustlings.git
+          ref: main
+          depth: 1
+
+        permissions: 0700
+
+  - path: external/teach-rs
+    permissions: 0700
+
+    contents:
+      - path: .
+        git:
+          url: https://github.com/trifectatechfoundation/teach-rs.git
+          ref: main
+          depth: 1
+
+        permissions: 0700
