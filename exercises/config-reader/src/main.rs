@@ -20,12 +20,12 @@ pub enum Error {
     Yaml(serde_yaml::Error),
 }
 
-trait DeserializeConfig {
+trait ConfigDeserializer {
     /// Deserialize the contents into a `Config`
     fn deserialize<'a>(&self, contents: &'a str) -> Result<Config<'a>, Error>;
 }
 
-// TODO add some types that implement `DeserializeConfig`
+// TODO add some types that implement `ConfigDeserializer`
 
 fn main() {
     let mut args = std::env::args();
