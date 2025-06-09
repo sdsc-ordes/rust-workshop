@@ -1,7 +1,10 @@
-set positional-arguments
 set shell := ["bash", "-cue"]
+set positional-arguments
+set dotenv-load := true
 root_dir := `git rev-parse --show-toplevel`
 cargo_watch := root_dir + / ".cargo/bin/cargo-watch"
+
+CONTAINER_MGR := env("CONTAINER_MGR", "docker")
 
 # Default recipe to list all recipes.
 default:
@@ -11,7 +14,7 @@ default:
 develop *args:
   #!/usr/bin/env bash
   echo "Starting developer shell in '.devcontainer'."
-  container_mgr=$(just get_container_mgr)
+  container_mgr="{{CONTAINER_MGR}}"
   devcontainer up --docker-path "$container_mgr" --workspace-folder . && \
   devcontainer exec --docker-path "$container_mgr" --workspace-folder . bash
 
@@ -34,25 +37,25 @@ list-exercises:
 # Build the exercise with name `name`.
 build name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
-    just check_exercise_dir "$dir" && \
+    just check-exercise-dir "$dir" && \
     cd "$dir" && cargo build "${@:2}"
 
 test name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
-    just check_exercise_dir "$dir" && \
+    just check-exercise-dir "$dir" && \
     cd "$dir" && cargo test "${@:2}"
 
 run name *args:
   dir="{{root_dir}}/exercises/{{name}}" && \
-    just check_exercise_dir "$dir" && \
+    just check-exercise-dir "$dir" && \
     cd "$dir" && cargo run "${@:2}"
 
 # Continuously watch and build/check/run/test the exercise
 # with name `name`.
 # Usage: `just watch build basic-syntax --bin 01`
-watch type name *args: assert_cargo_watch
+watch type name *args: assert-cargo-watch
   dir="{{root_dir}}/exercises/{{name}}" && \
-    just check_exercise_dir "$dir" && \
+    just check-exercise-dir "$dir" && \
     cd "$dir" && "{{cargo_watch}}" -- cargo "{{type}}" "${@:3}"
 
 # Shows the solution on the branch `feat/solutions`
@@ -61,7 +64,7 @@ show-solution path:
     git diff HEAD...feat/solutions -- "{{path}}"
 
 [private]
-assert_cargo_watch:
+assert-cargo-watch:
   #!/usr/bin/env bash
   if [ -f "{{cargo_watch}}" ]; then
     echo "Cargo watch exists at: '{{cargo_watch}}'."
@@ -81,7 +84,7 @@ assert_cargo_watch:
 
 
 [private]
-check_exercise_dir dir:
+check-exercise-dir dir:
   #!/usr/bin/env bash
   dir="{{dir}}"
   [ -d "$dir" ] || {
@@ -91,22 +94,9 @@ check_exercise_dir dir:
     exit 1
   }
 
+
 [private]
-get_container_mgr:
+update-vendir:
   #!/usr/bin/env bash
-  set -e
-  set -u
-  cd "{{root_dir}}"
-
-  if [ -f .env ]; then
-    source .env
-  else
-    CONTAINER_MGR="podman"
-  fi
-
-  if command -v "$CONTAINER_MGR" &>/dev/null; then
-    echo "$CONTAINER_MGR"
-  else
-    echo "Container manager '$CONTAINER_MGR' not available. Use docker." >&2
-    echo "docker"
-  fi
+  vendir -f tools/configs/vendir/vendir.yaml \
+         --lock-file tools/configs/vendir/vendir.lock.yaml sync

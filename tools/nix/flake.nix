@@ -61,8 +61,7 @@
           # Set the rust toolchain from the `rust-toolchain.toml`.
           rustToolchain = pkgs.pkgsBuildHost.rust-bin.fromRustupToolchainFile ./../../rust-toolchain.toml;
 
-          # Things needed only at compile-time.
-          nativeBuildInputsBasic = with pkgs; [
+          packages = with pkgs; [
             findutils
             coreutils
             bash
@@ -72,8 +71,9 @@
             jq
           ];
 
-          # Things needed only at compile-time.
-          nativeBuildInputsDev = with pkgs; [
+          packagesDev = with pkgs; [
+            vendir
+
             rustToolchain
             cargo-watch
             just
@@ -84,15 +84,12 @@
             devcontainer
           ];
 
-          # Things needed at runtime.
-          buildInputs = [ ];
         in
         with pkgs;
         {
           devShells = {
             default = mkShell {
-              inherit buildInputs;
-              nativeBuildInputs = nativeBuildInputsBasic ++ nativeBuildInputsDev;
+              packages = packages ++ packagesDev;
             };
           };
         }
