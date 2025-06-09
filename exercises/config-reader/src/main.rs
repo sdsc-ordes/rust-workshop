@@ -20,12 +20,25 @@ pub enum Error {
     Yaml(serde_yaml::Error),
 }
 
-trait DeserializeConfig {
+trait ConfigDeserializer {
     /// Deserialize the contents into a `Config`
     fn deserialize<'a>(&self, contents: &'a str) -> Result<Config<'a>, Error>;
 }
 
-// TODO add some types that implement `DeserializeConfig`
+struct YamlDeserializer {}
+struct JsonDeserializer {}
+
+impl ConfigDeserializer for YamlDeserializer {
+    fn deserialize<'a>(&self, contents: &'a str) -> Result<Config<'a>, Error> {
+        serde_yaml::from_str::<Config<'a>>(contents).map_err(|e| Error::Yaml(e))
+    }
+}
+
+impl ConfigDeserializer for JsonDeserializer {
+    fn deserialize<'a>(&self, contents: &'a str) -> Result<Config<'a>, Error> {
+        serde_json::from_str::<Config<'a>>(contents).map_err(|e| Error::Json(e))
+    }
+}
 
 fn main() {
     let mut args = std::env::args();
@@ -37,7 +50,7 @@ fn main() {
     };
 
     // Unwrapping is Ok as `path` was created from UTF-8 string, and so is the extension
-    let _extension = path.extension().map(|o| o.to_str().unwrap());
+    let extension = path.extension().map(|o| o.to_str().unwrap());
     let file_contents = match std::fs::read_to_string(&path) {
         Ok(c) => c,
         Err(e) => {
@@ -51,7 +64,26 @@ fn main() {
         }
     };
 
-    let config: Config = todo!("Deserialize `file_contents` using either serde_yaml or serde_json depending on the file extension. Use dynamic dispatch");
+    let deserializer: &dyn ConfigDeserializer = match extension {
+        Some("yml") | Some(".yaml") => &YamlDeserializer {},
+        Some("json") => &JsonDeserializer {},
+        Some(c) => {
+            eprintln!("Cannot deserialize config with extension '{c}'.");
+            return;
+        }
+        _ => {
+            eprintln!("Cannot detect extension '{path:?}'.");
+            return;
+        }
+    };
+
+    let config: Config = match deserializer.deserialize(&file_contents) {
+        Ok(c) => c,
+        Err(e) => {
+            eprintln!("Error deserializing config. {:?}", e);
+            return;
+        }
+    };
 
     println!("Config was: {config:?}");
 }
